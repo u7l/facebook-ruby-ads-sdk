@@ -51,7 +51,13 @@ module FacebookAds
       files.values.each { |file| File.delete(file.path) }
       !response['images'].nil? ? ad_images(hashes: response['images'].map { |_key, hash| hash['hash'] }) : []
     end
+    
+    # has_many ad_videos
 
+    def ad_videos(limit: 100)
+      AdVideo.paginate("/#{id}/advideos", query: { limit: limit })
+    end
+    
     # has_many ad_creatives
 
     def ad_creatives(limit: 100)
